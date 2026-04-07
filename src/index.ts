@@ -21,6 +21,7 @@ import {
   trackActivity, buildActivityDigest, parseRouteCommand,
 } from "./general-orchestrator.js";
 import type { TodoItem } from "./types.js";
+import { buildSkillPrompt, listSkills, reloadSkills } from "./skill-loader.js";
 
 // Message queue per channel (when session is busy)
 const messageQueues = new Map<string, { message: string; discordMsg: Message }[]>();
@@ -195,10 +196,14 @@ async function processMessage(
   // Get channel memories
   const memories = getChannelMemories(channelId);
 
-  // Build system prompt - add activity digest for #général
+  // Build system prompt - add activity digest for #général + skills
   let systemPrompt = config.systemPrompt;
   if (channelId === GENERAL_CHANNEL_ID) {
     systemPrompt += "\n\n" + buildActivityDigest();
+  }
+  // Inject skills if configured for this channel
+  if (config.skills && config.skills.length > 0) {
+    systemPrompt += buildSkillPrompt(config.skills);
   }
 
   // Check for route commands from #général
@@ -516,8 +521,12 @@ async function handleCommand(cmd: string, channel: TextChannel, message: Message
         case "dir":
           settings.project_dir = value;
           break;
+        case "skills":
+          // Value is comma-separated: "seo-audit,seo-content,seo-schema"
+          settings.skills = value;
+          break;
         default:
-          await channel.send(`❌ Clé inconnue: \`${key}\`. Valides: max-turns, model, compact-threshold, streaming, project-dir`);
+          await channel.send(`❌ Clé inconnue: \`${key}\`. Valides: max-turns, model, compact-threshold, streaming, project-dir, skills`);
           return;
       }
 
@@ -571,9 +580,96 @@ async function handleCommand(cmd: string, channel: TextChannel, message: Message
       break;
     }
 
+    case "skills": {
+      const target = parts[1]?.replace("#", "") || channel.name;
+      const config = getChannelConfig(channel.id, target);
+      const allSkills = listSkills();
+
+      if (parts[1] === "all" || parts[1] === "list") {
+        let msg = `**🧩 Skills disponibles (${allSkills.length}) :**\n\n`;
+        for (const s of allSkills) {
+          msg += `**${s.name}** — ${s.description || "No description"}\n`;
+        }
+        // Split if too long
+        if (msg.length > 1900) {
+          const chunks = msg.match(/[\s\S]{1,1900}/g) || [msg];
+          for (const chunk of chunks) await channel.send(chunk);
+        } else {
+          await channel.send(msg);
+        }
+      } else if (parts[1] === "reload") {
+        const reloaded = reloadSkills();
+        await channel.send(`🔄 Skills rechargés: ${reloaded.size} trouvés.`);
+      } else {
+        const channelSkills = config.skills || [];
+        if (channelSkills.length === 0) {
+          await channel.send(`**#${target}** : aucun skill configuré.\nUtilise \`!skills all\` pour voir les skills dispo, \`!set skills seo-audit,seo-content\` pour en ajouter.`);
+        } else {
+          await channel.send(`**🧩 Skills de #${target} :** ${channelSkills.map(s => `\`${s}\``).join(", ")}`);
+        }
+      }
+      break;
+    }
+
+    case "update": {
+      await channel.send("📥 **Checking for updates...**");
+
+      try {
+        // Fetch latest
+        const fetchResult = Bun.spawnSync(["git", "fetch", "origin", "main"], { cwd: "/home/xavier/xklip/disclawd" });
+
+        // Check if there are changes
+        const diffResult = Bun.spawnSync(["git", "diff", "--stat", "HEAD..origin/main"], { cwd: "/home/xavier/xklip/disclawd" });
+        const diffOutput = new TextDecoder().decode(diffResult.stdout).trim();
+
+        if (!diffOutput) {
+          await channel.send("✅ Déjà à jour. Aucune modification.");
+          break;
+        }
+
+        // Show diff summary
+        const logResult = Bun.spawnSync(["git", "log", "--oneline", "HEAD..origin/main"], { cwd: "/home/xavier/xklip/disclawd" });
+        const logOutput = new TextDecoder().decode(logResult.stdout).trim();
+
+        await channel.send(`📦 **Nouvelles modifications :**\n\`\`\`\n${logOutput}\n\`\`\`\n\`\`\`\n${diffOutput}\n\`\`\``);
+
+        // Pull
+        const pullResult = Bun.spawnSync(["git", "pull", "origin", "main"], { cwd: "/home/xavier/xklip/disclawd" });
+        const pullOutput = new TextDecoder().decode(pullResult.stdout).trim();
+
+        if (pullResult.exitCode !== 0) {
+          const pullError = new TextDecoder().decode(pullResult.stderr).trim();
+          await channel.send(`❌ **Erreur git pull :**\n\`\`\`\n${pullError}\n\`\`\``);
+          break;
+        }
+
+        await channel.send("🔄 **Redémarrage avec le nouveau code...** (retour dans ~3s)");
+
+        // Give Discord time to send the message
+        await new Promise(r => setTimeout(r, 1000));
+
+        // Shutdown cleanly — supervisor.sh will restart us
+        await shutdownAll();
+        client.destroy();
+        process.exit(42); // Exit code 42 = update restart
+      } catch (err) {
+        await channel.send(`❌ **Erreur update :** ${err}`);
+      }
+      break;
+    }
+
+    case "version":
+    case "v": {
+      const verResult = Bun.spawnSync(["git", "log", "--oneline", "-1"], { cwd: "/home/xavier/xklip/disclawd" });
+      const ver = new TextDecoder().decode(verResult.stdout).trim();
+      const pkg = await Bun.file("/home/xavier/xklip/disclawd/package.json").json();
+      await channel.send(`🦅 **DisClawd v${pkg.version}**\nDernier commit: \`${ver}\``);
+      break;
+    }
+
     case "help": {
       await channel.send(`**Commandes DisClawd:**
-\`!dashboard\` — 🦅 Interface de configuration interactive (boutons, dropdowns)
+\`!dashboard\` — 🦅 Interface de configuration interactive
 \`!status\` — Sessions actives et files d'attente
 \`!stop [#channel]\` — Arrêter une session
 \`!reset\` — Réinitialiser le contexte de ce channel
@@ -582,6 +678,9 @@ async function handleCommand(cmd: string, channel: TextChannel, message: Message
 \`!set [channel] key value\` — Modifier un paramètre
 \`!config [channel|all]\` — Voir la configuration
 \`!unset [channel]\` — Supprimer les overrides
+\`!update\` — 📥 Mettre à jour depuis GitHub + redémarrage auto
+\`!version\` — Version actuelle
+\`!skills [channel]\` — Voir les skills chargés
 \`!help\` — Cette aide
 
 **Réactions rapides:**

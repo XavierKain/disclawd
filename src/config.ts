@@ -40,6 +40,7 @@ Réponds en français, sois direct et concis.`,
 Stack: Next.js/React. Réponds en français.`,
     streaming: true,
     maxTurns: 50,
+    skills: ["ui-ux-pro-max", "seo-page"],
   },
   "agency-dev": {
     projectDir: "/home/xavier/xklip",
@@ -54,6 +55,7 @@ Réponds en français, montre ton travail via la todo list.`,
 Réponds en français.`,
     streaming: true,
     maxTurns: 20,
+    skills: ["seo-content", "seo-geo"],
   },
   "agency-sales": {
     projectDir: "/home/xavier/xklip",
@@ -90,6 +92,56 @@ Réponds en français, sois technique et précis.`,
     streaming: true,
     maxTurns: 30,
   },
+  // === Skill-powered channels ===
+  "seo-audit": {
+    projectDir: "/home/xavier/.openclaw/workspace/xavierkain-v2",
+    systemPrompt: `Tu es un expert SEO. Réalise des audits techniques complets.
+Réponds en français sauf si l'utilisateur écrit en anglais.`,
+    model: "opus",
+    maxTurns: 30,
+    skills: ["seo-audit", "seo-technical", "seo-schema", "seo-sitemap"],
+  },
+  "seo-content": {
+    projectDir: "/home/xavier/.openclaw/workspace/xavierkain-v2",
+    systemPrompt: `Tu es un expert rédaction SEO et GEO (Generative Engine Optimization).
+Rédige du contenu optimisé pour les moteurs de recherche ET les IA.`,
+    model: "opus",
+    maxTurns: 30,
+    skills: ["seo-content", "seo-geo", "seo-plan"],
+  },
+  "blog-writer": {
+    projectDir: "/home/xavier/.openclaw/workspace/xavierkain-v2",
+    systemPrompt: `Tu es un rédacteur de blog technique en anglais.
+Écris des articles engageants, bien structurés, SEO-optimisés.`,
+    model: "opus",
+    maxTurns: 40,
+    skills: ["seo-content", "seo-schema", "seo-competitor-pages"],
+  },
+  "ui-ux": {
+    projectDir: "/home/xavier/.openclaw/workspace/xavierkain-v2",
+    systemPrompt: `Tu es un designer UI/UX expert.
+Crée des interfaces modernes, accessibles et performantes.`,
+    model: "opus",
+    maxTurns: 50,
+    skills: ["ui-ux-pro-max"],
+  },
+  "superpowers": {
+    projectDir: "/home/xavier/xklip",
+    systemPrompt: `Tu es Jarvis en mode superpowers — tous les skills sont chargés.
+Tu peux faire du SEO, du design, du code, du contenu, tout.
+Réponds en français.`,
+    model: "opus",
+    maxTurns: 50,
+    skills: ["seo-audit", "seo-technical", "seo-content", "seo-geo", "seo-schema", "seo-plan", "ui-ux-pro-max"],
+  },
+  "research": {
+    projectDir: "/home/xavier/xklip/disclawd",
+    systemPrompt: `Tu es un chercheur IA. Tu analyses les tendances, les outils, les repos GitHub trending.
+Tu proposes des améliorations concrètes pour DisClawd.
+Réponds en anglais pour la recherche, en français pour les recommandations.`,
+    model: "opus",
+    maxTurns: 20,
+  },
 };
 
 // Default config for channels not explicitly configured
@@ -100,6 +152,7 @@ export const DEFAULT_CHANNEL_CONFIG: Omit<ChannelConfig, "id" | "name"> = {
   model: CLAUDE_MODEL,
   maxTurns: DEFAULT_MAX_TURNS,
   compactThreshold: DEFAULT_COMPACT_THRESHOLD,
+  skills: [],
 };
 
 /**
@@ -121,6 +174,7 @@ export function getChannelConfig(channelId: string, channelName: string): Channe
         ...(dbSetting.streaming != null && { streaming: !!dbSetting.streaming }),
         ...(dbSetting.system_prompt != null && { systemPrompt: dbSetting.system_prompt }),
         ...(dbSetting.project_dir != null && { projectDir: dbSetting.project_dir }),
+        ...(dbSetting.skills != null && { skills: dbSetting.skills.split(",").map((s: string) => s.trim()).filter(Boolean) }),
       };
     }
   } catch {

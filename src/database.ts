@@ -62,6 +62,7 @@ db.exec(`
     streaming INTEGER,
     system_prompt TEXT,
     project_dir TEXT,
+    skills TEXT,
     updated_at INTEGER DEFAULT (unixepoch())
   );
 `);
@@ -131,8 +132,8 @@ const stmts = {
   getChannelSetting: db.prepare("SELECT * FROM channel_settings WHERE channel_name = ?"),
   getAllChannelSettings: db.prepare("SELECT * FROM channel_settings ORDER BY channel_name"),
   upsertChannelSetting: db.prepare(`
-    INSERT INTO channel_settings (channel_name, max_turns, model, compact_threshold, streaming, system_prompt, project_dir, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, unixepoch())
+    INSERT INTO channel_settings (channel_name, max_turns, model, compact_threshold, streaming, system_prompt, project_dir, skills, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, unixepoch())
     ON CONFLICT(channel_name) DO UPDATE SET
       max_turns = COALESCE(excluded.max_turns, max_turns),
       model = COALESCE(excluded.model, model),
@@ -140,6 +141,7 @@ const stmts = {
       streaming = COALESCE(excluded.streaming, streaming),
       system_prompt = COALESCE(excluded.system_prompt, system_prompt),
       project_dir = COALESCE(excluded.project_dir, project_dir),
+      skills = COALESCE(excluded.skills, skills),
       updated_at = unixepoch()
   `),
   deleteChannelSetting: db.prepare("DELETE FROM channel_settings WHERE channel_name = ?"),
@@ -222,7 +224,7 @@ export function getAllChannelSettings() {
 
 export function upsertChannelSetting(
   channelName: string,
-  settings: { max_turns?: number | null; model?: string | null; compact_threshold?: number | null; streaming?: number | null; system_prompt?: string | null; project_dir?: string | null }
+  settings: { max_turns?: number | null; model?: string | null; compact_threshold?: number | null; streaming?: number | null; system_prompt?: string | null; project_dir?: string | null; skills?: string | null }
 ) {
   stmts.upsertChannelSetting.run(
     channelName,
@@ -232,6 +234,7 @@ export function upsertChannelSetting(
     settings.streaming ?? null,
     settings.system_prompt ?? null,
     settings.project_dir ?? null,
+    settings.skills ?? null,
   );
 }
 

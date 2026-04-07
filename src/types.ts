@@ -72,4 +72,5 @@ export interface ChannelConfig {
   model: string; // claude model (opus, sonnet, haiku)
   maxTurns: number; // 0 = unlimited
   compactThreshold: number; // compact memory after N messages
+  skills: string[]; // skill names to inject into system prompt
 }
