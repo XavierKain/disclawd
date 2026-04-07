@@ -4,7 +4,7 @@ import { getChannelSetting } from "./database.js";
 export const DISCORD_TOKEN = process.env.DISCORD_BOT_TOKEN!;
 export const ALLOWED_USER_ID = process.env.ALLOWED_USER_ID!;
 export const GUILD_ID = process.env.GUILD_ID!;
-export const CLAUDE_MODEL = process.env.CLAUDE_MODEL || "opus";
+export const CLAUDE_MODEL = process.env.CLAUDE_MODEL || "sonnet";
 export const BASE_PROJECT_DIR = process.env.BASE_PROJECT_DIR || "/home/xavier";
 
 // Debounce interval for Discord message edits (ms)
@@ -33,6 +33,7 @@ export const CHANNEL_CONFIGS: Record<string, Partial<ChannelConfig>> = {
 Tu peux voir les digests d'activité des autres instances et router des commandes vers elles.
 Réponds en français, sois direct et concis.`,
     streaming: true,
+    model: "sonnet",
   },
   "refonte-xavierkain-fr": {
     projectDir: "/home/xavier/.openclaw/workspace/xavierkain-v2",
@@ -54,6 +55,7 @@ Réponds en français, montre ton travail via la todo list.`,
     systemPrompt: `Tu es Jarvis, agent marketing. Content, SEO, réseaux sociaux.
 Réponds en français.`,
     streaming: true,
+    model: "sonnet",
     maxTurns: 20,
     skills: ["seo-content", "seo-geo"],
   },
@@ -62,6 +64,7 @@ Réponds en français.`,
     systemPrompt: `Tu es Jarvis, agent commercial. Prospection, outreach, suivi leads.
 Réponds en français.`,
     streaming: true,
+    model: "sonnet",
     maxTurns: 20,
   },
   "liens": {
@@ -73,7 +76,7 @@ Réponds en français.`,
 - Score d'intérêt /10
 Réponds en français.`,
     streaming: false,
-    model: "sonnet",
+    model: "haiku",
     maxTurns: 3,
     compactThreshold: 20,
   },
@@ -90,6 +93,7 @@ Réponds en français.`,
     systemPrompt: `Tu es Jarvis, admin système. Tu gères le VPS, les crons, le monitoring.
 Réponds en français, sois technique et précis.`,
     streaming: true,
+    model: "sonnet",
     maxTurns: 30,
   },
   // === Skill-powered channels ===
@@ -97,7 +101,7 @@ Réponds en français, sois technique et précis.`,
     projectDir: "/home/xavier/.openclaw/workspace/xavierkain-v2",
     systemPrompt: `Tu es un expert SEO. Réalise des audits techniques complets.
 Réponds en français sauf si l'utilisateur écrit en anglais.`,
-    model: "opus",
+    model: "sonnet",
     maxTurns: 30,
     skills: ["seo-audit", "seo-technical", "seo-schema", "seo-sitemap"],
   },
@@ -105,7 +109,7 @@ Réponds en français sauf si l'utilisateur écrit en anglais.`,
     projectDir: "/home/xavier/.openclaw/workspace/xavierkain-v2",
     systemPrompt: `Tu es un expert rédaction SEO et GEO (Generative Engine Optimization).
 Rédige du contenu optimisé pour les moteurs de recherche ET les IA.`,
-    model: "opus",
+    model: "sonnet",
     maxTurns: 30,
     skills: ["seo-content", "seo-geo", "seo-plan"],
   },
@@ -113,7 +117,7 @@ Rédige du contenu optimisé pour les moteurs de recherche ET les IA.`,
     projectDir: "/home/xavier/.openclaw/workspace/xavierkain-v2",
     systemPrompt: `Tu es un rédacteur de blog technique en anglais.
 Écris des articles engageants, bien structurés, SEO-optimisés.`,
-    model: "opus",
+    model: "sonnet",
     maxTurns: 40,
     skills: ["seo-content", "seo-schema", "seo-competitor-pages"],
   },
@@ -139,7 +143,7 @@ Réponds en français.`,
     systemPrompt: `Tu es un chercheur IA. Tu analyses les tendances, les outils, les repos GitHub trending.
 Tu proposes des améliorations concrètes pour DisClawd.
 Réponds en anglais pour la recherche, en français pour les recommandations.`,
-    model: "opus",
+    model: "sonnet",
     maxTurns: 20,
   },
 };
