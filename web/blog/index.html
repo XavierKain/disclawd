@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - DisClawd</title>
+    <meta name="description" content="Articles, guides, and comparisons about DisClawd, Claude Code, and AI-powered development workflows.">
+    <link rel="canonical" href="https://disclawd.xavier-kain.fr/blog/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://disclawd.xavier-kain.fr/blog/">
+    <meta property="og:title" content="Blog - DisClawd">
+    <meta property="og:description" content="Articles, guides, and comparisons about DisClawd, Claude Code, and AI-powered development workflows.">
+    <meta property="og:site_name" content="DisClawd">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Blog - DisClawd">
+    <meta name="twitter:description" content="Articles, guides, and comparisons about DisClawd, Claude Code, and AI-powered development workflows.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        blurple: '#5865F2',
+                        claude: '#E87040',
+                        surface: '#0f1117',
+                        'surface-2': '#1a1d27',
+                        'surface-3': '#242836',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0f1117; }
+        .gradient-text {
+            background: linear-gradient(135deg, #5865F2 0%, #E87040 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(88, 101, 242, 0.12);
+        }
+    </style>
+</head>
+<body class="bg-surface text-gray-100 antialiased">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="/" class="text-xl font-bold tracking-tight">
+                <span class="text-blurple">Dis</span><span class="text-claude">Clawd</span>
+            </a>
+            <div class="hidden sm:flex items-center gap-8 text-sm text-gray-400">
+                <a href="/#features" class="hover:text-gray-100 transition-colors">Features</a>
+                <a href="/#how-it-works" class="hover:text-gray-100 transition-colors">How it Works</a>
+                <a href="/blog/" class="text-gray-100 transition-colors">Blog</a>
+                <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="hover:text-gray-100 transition-colors flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+            </div>
+            <button id="mobile-toggle" class="sm:hidden p-2 text-gray-400 hover:text-gray-100" aria-label="Toggle menu">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden sm:hidden border-t border-white/5 bg-surface/95 backdrop-blur-xl">
+            <div class="px-4 py-4 flex flex-col gap-3 text-sm text-gray-400">
+                <a href="/#features" class="hover:text-gray-100 transition-colors">Features</a>
+                <a href="/#how-it-works" class="hover:text-gray-100 transition-colors">How it Works</a>
+                <a href="/blog/" class="text-gray-100 transition-colors">Blog</a>
+                <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="hover:text-gray-100 transition-colors">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="pt-28 pb-12 sm:pt-36 sm:pb-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Blog</h1>
+            <p class="text-gray-400 text-lg">Guides, comparisons, and deep dives on AI-powered development with DisClawd.</p>
+        </div>
+    </section>
+
+    <!-- Articles -->
+    <section class="pb-20 sm:pb-28">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="grid gap-6">
+                <!-- Article Card -->
+                <a href="/blog/disclawd-vs-openclaw.html" class="card-hover block p-6 sm:p-8 rounded-2xl bg-[#1a1d27] border border-white/5">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            <time datetime="2026-04-07" class="text-xs text-gray-500 font-medium">April 7, 2026</time>
+                            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-blurple/10 text-blurple border border-blurple/20">Comparison</span>
+                        </div>
+                        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-gray-100">DisClawd vs OpenClaw: Which Claude Code Tool Should You Use?</h2>
+                        <p class="text-gray-400 text-sm leading-relaxed">OpenClaw gives you 75+ LLM providers and a web dashboard. DisClawd turns your Discord into a multi-agent Claude Code workspace using your existing subscription. We compare setup, cost models, features, and ideal use cases to help you decide.</p>
+                        <span class="inline-flex items-center gap-1 text-sm font-medium text-blurple mt-1">
+                            Read article
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 border-t border-white/5">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+            <div class="flex items-center gap-2">
+                <span class="font-semibold text-gray-400"><span class="text-blurple">Dis</span><span class="text-claude">Clawd</span></span>
+                <span>&middot;</span>
+                <span>MIT License</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="hover:text-gray-300 transition-colors">GitHub</a>
+                <a href="/blog/" class="hover:text-gray-300 transition-colors">Blog</a>
+                <span>Made by <a href="https://xavier-kain.fr" target="_blank" rel="noopener" class="text-gray-400 hover:text-gray-300 transition-colors">Xavier Kain</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

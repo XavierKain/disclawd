@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DisClawd - Your Claude Code subscription, supercharged on Discord</title>
+    <meta name="description" content="Turn every Discord channel into an independent AI agent. 10 concurrent sessions, persistent memory, live streaming. No extra API costs. An OpenClaw alternative.">
+    <meta name="keywords" content="Claude Code, Discord bot, AI agent, coding assistant, OpenClaw alternative, multi-session, AI coding">
+    <link rel="canonical" href="https://disclawd.xavier-kain.fr/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://disclawd.xavier-kain.fr/">
+    <meta property="og:title" content="DisClawd - Your Claude Code subscription, supercharged on Discord">
+    <meta property="og:description" content="Turn every Discord channel into an independent AI agent. 10 concurrent sessions, persistent memory, live streaming. No extra API costs.">
+    <meta property="og:site_name" content="DisClawd">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DisClawd - Your Claude Code subscription, supercharged on Discord">
+    <meta name="twitter:description" content="Turn every Discord channel into an independent AI agent. 10 concurrent sessions, persistent memory, live streaming.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        blurple: '#5865F2',
+                        claude: '#E87040',
+                        surface: '#0f1117',
+                        'surface-2': '#1a1d27',
+                        'surface-3': '#242836',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0f1117; }
+        .gradient-text {
+            background: linear-gradient(135deg, #5865F2 0%, #E87040 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .card-hover {
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(88, 101, 242, 0.12);
+        }
+        .code-block {
+            background: #1a1d27;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+    </style>
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "DisClawd",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Linux, macOS",
+        "description": "A Discord bot that turns each channel into an independent Claude Code agent. An OpenClaw alternative that uses your existing Claude Code subscription.",
+        "url": "https://disclawd.xavier-kain.fr",
+        "downloadUrl": "https://github.com/XavierKain/disclawd",
+        "author": {
+            "@type": "Person",
+            "name": "Xavier Kain",
+            "url": "https://xavier-kain.fr"
+        },
+        "license": "https://opensource.org/licenses/MIT",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "softwareRequirements": "Bun, Discord Bot Token, Claude Code CLI",
+        "programmingLanguage": ["TypeScript", "JavaScript"]
+    }
+    </script>
+</head>
+<body class="bg-surface text-gray-100 antialiased">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="/" class="text-xl font-bold tracking-tight">
+                <span class="text-blurple">Dis</span><span class="text-claude">Clawd</span>
+            </a>
+            <div class="hidden sm:flex items-center gap-8 text-sm text-gray-400">
+                <a href="#features" class="hover:text-gray-100 transition-colors">Features</a>
+                <a href="#how-it-works" class="hover:text-gray-100 transition-colors">How it Works</a>
+                <a href="/blog/" class="hover:text-gray-100 transition-colors">Blog</a>
+                <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="hover:text-gray-100 transition-colors flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+            </div>
+            <button id="mobile-toggle" class="sm:hidden p-2 text-gray-400 hover:text-gray-100" aria-label="Toggle menu">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden sm:hidden border-t border-white/5 bg-surface/95 backdrop-blur-xl">
+            <div class="px-4 py-4 flex flex-col gap-3 text-sm text-gray-400">
+                <a href="#features" class="hover:text-gray-100 transition-colors">Features</a>
+                <a href="#how-it-works" class="hover:text-gray-100 transition-colors">How it Works</a>
+                <a href="/blog/" class="hover:text-gray-100 transition-colors">Blog</a>
+                <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="hover:text-gray-100 transition-colors">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blurple/5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-claude/5 rounded-full blur-3xl"></div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 relative">
+            <div class="max-w-3xl mx-auto text-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blurple/10 border border-blurple/20 text-blurple text-xs font-medium mb-6">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blurple animate-pulse"></span>
+                    An OpenClaw alternative on Discord
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-6">
+                    Your Claude Code subscription, <span class="gradient-text">supercharged on Discord</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-gray-400 leading-relaxed mb-10 max-w-2xl mx-auto">
+                    Turn every Discord channel into an independent AI agent. 10 concurrent sessions, persistent memory, live streaming. No extra API costs.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+                    <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-blurple hover:bg-blurple/90 text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-blurple/25">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        Get Started
+                    </a>
+                    <a href="https://github.com/XavierKain/disclawd#readme" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white/5 hover:bg-white/10 text-gray-300 font-semibold rounded-xl border border-white/10 transition-all duration-200">
+                        Read the docs
+                    </a>
+                </div>
+            </div>
+
+            <!-- Code block -->
+            <div class="max-w-2xl mx-auto">
+                <div class="code-block rounded-2xl overflow-hidden">
+                    <div class="flex items-center gap-2 px-5 py-3 border-b border-white/5">
+                        <div class="flex gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-red-500/60"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500/60"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500/60"></span>
+                        </div>
+                        <span class="text-xs text-gray-500 ml-2 font-mono">channel = agent</span>
+                    </div>
+                    <pre class="p-5 text-sm font-mono text-gray-300 overflow-x-auto leading-relaxed"><code>{
+  <span class="text-blurple">"#website-redesign"</span>: {
+    <span class="text-gray-500">"model"</span>: <span class="text-claude">"claude-sonnet-4-20250514"</span>,
+    <span class="text-gray-500">"skills"</span>: [<span class="text-claude">"seo"</span>, <span class="text-claude">"design"</span>],
+    <span class="text-gray-500">"workingDir"</span>: <span class="text-claude">"/projects/website"</span>
+  },
+  <span class="text-blurple">"#api-backend"</span>: {
+    <span class="text-gray-500">"model"</span>: <span class="text-claude">"claude-sonnet-4-20250514"</span>,
+    <span class="text-gray-500">"skills"</span>: [<span class="text-claude">"backend"</span>, <span class="text-claude">"testing"</span>],
+    <span class="text-gray-500">"workingDir"</span>: <span class="text-claude">"/projects/api"</span>
+  },
+  <span class="text-blurple">"#mobile-app"</span>: {
+    <span class="text-gray-500">"model"</span>: <span class="text-claude">"claude-sonnet-4-20250514"</span>,
+    <span class="text-gray-500">"skills"</span>: [<span class="text-claude">"react-native"</span>],
+    <span class="text-gray-500">"workingDir"</span>: <span class="text-claude">"/projects/mobile"</span>
+  }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-20 sm:py-28">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Everything you need, nothing you don't</h2>
+                <p class="text-gray-400 text-lg max-w-xl mx-auto">Built for developers who want Claude Code power with Discord convenience.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Multi-session -->
+                <div class="card-hover p-6 rounded-2xl bg-surface-2 border border-white/5">
+                    <div class="w-10 h-10 rounded-xl bg-blurple/10 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-blurple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Multi-Session</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Run up to 10 concurrent Claude Code sessions. Each Discord channel gets its own independent agent with isolated context.</p>
+                </div>
+                <!-- Skill System -->
+                <div class="card-hover p-6 rounded-2xl bg-surface-2 border border-white/5">
+                    <div class="w-10 h-10 rounded-xl bg-claude/10 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-claude" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Skill System</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Inject specialized skills per channel -- SEO expertise, design patterns, coding standards. Each agent becomes a domain specialist.</p>
+                </div>
+                <!-- Cost Tracking -->
+                <div class="card-hover p-6 rounded-2xl bg-surface-2 border border-white/5">
+                    <div class="w-10 h-10 rounded-xl bg-blurple/10 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-blurple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Cost Tracking</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Per-channel cost breakdown with daily and weekly reports. Know exactly how much each project consumes. Use <code class="text-xs bg-white/5 px-1.5 py-0.5 rounded">!cost</code> anytime.</p>
+                </div>
+                <!-- Memory Compaction -->
+                <div class="card-hover p-6 rounded-2xl bg-surface-2 border border-white/5">
+                    <div class="w-10 h-10 rounded-xl bg-claude/10 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-claude" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Memory Compaction</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Automatic conversation summarization after N messages. Long-running projects stay coherent without context window overflow.</p>
+                </div>
+                <!-- Cross-Channel Routing -->
+                <div class="card-hover p-6 rounded-2xl bg-surface-2 border border-white/5">
+                    <div class="w-10 h-10 rounded-xl bg-blurple/10 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-blurple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Cross-Channel Routing</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Send commands to any channel from a central hub. Orchestrate multiple agents from <code class="text-xs bg-white/5 px-1.5 py-0.5 rounded">#general</code> without switching channels.</p>
+                </div>
+                <!-- Auto-Update -->
+                <div class="card-hover p-6 rounded-2xl bg-surface-2 border border-white/5">
+                    <div class="w-10 h-10 rounded-xl bg-claude/10 flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-claude" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">Auto-Update</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Type <code class="text-xs bg-white/5 px-1.5 py-0.5 rounded">!update</code> in Discord and DisClawd pulls the latest code, rebuilds, and restarts with zero downtime. No SSH needed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how-it-works" class="py-20 sm:py-28 border-t border-white/5">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Up and running in minutes</h2>
+                <p class="text-gray-400 text-lg max-w-xl mx-auto">Four steps from zero to a multi-agent Discord workspace.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="relative">
+                    <div class="text-5xl font-extrabold text-blurple/10 mb-3">01</div>
+                    <h3 class="font-semibold text-lg mb-2">Create channels</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Create Discord channels for your projects. Each channel becomes an independent agent workspace with its own context and history.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-5xl font-extrabold text-blurple/10 mb-3">02</div>
+                    <h3 class="font-semibold text-lg mb-2">Configure per-channel</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Set the model, inject skills, and point to the right working directory. All via a simple JSON config or Discord commands.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-5xl font-extrabold text-blurple/10 mb-3">03</div>
+                    <h3 class="font-semibold text-lg mb-2">Chat normally</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Send messages like you would to any Discord bot. DisClawd spawns Claude Code sessions behind the scenes and streams responses live.</p>
+                </div>
+                <div class="relative">
+                    <div class="text-5xl font-extrabold text-blurple/10 mb-3">04</div>
+                    <h3 class="font-semibold text-lg mb-2">Monitor everything</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Live streaming responses, todo tracking, cost monitoring. Full visibility into every agent's work from your phone or desktop.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section id="comparison" class="py-20 sm:py-28 border-t border-white/5">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">How DisClawd compares</h2>
+                <p class="text-gray-400 text-lg max-w-xl mx-auto">An honest look at where each tool shines.</p>
+            </div>
+            <div class="overflow-x-auto -mx-4 sm:mx-0">
+                <table class="w-full min-w-[640px] text-sm">
+                    <thead>
+                        <tr class="border-b border-white/10">
+                            <th class="text-left py-4 px-4 font-semibold text-gray-300">Feature</th>
+                            <th class="text-center py-4 px-4 font-semibold text-blurple">DisClawd</th>
+                            <th class="text-center py-4 px-4 font-semibold text-gray-300">OpenClaw</th>
+                            <th class="text-center py-4 px-4 font-semibold text-gray-300">Raw Claude Code</th>
+                            <th class="text-center py-4 px-4 font-semibold text-gray-300">Cursor</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-400">
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 font-medium text-gray-200">Uses subscription</td>
+                            <td class="py-3 px-4 text-center text-green-400">Yes</td>
+                            <td class="py-3 px-4 text-center text-red-400">No (API keys)</td>
+                            <td class="py-3 px-4 text-center text-green-400">Yes</td>
+                            <td class="py-3 px-4 text-center text-yellow-400">Separate plan</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 font-medium text-gray-200">Multi-session</td>
+                            <td class="py-3 px-4 text-center text-green-400">10 concurrent</td>
+                            <td class="py-3 px-4 text-center text-green-400">Yes</td>
+                            <td class="py-3 px-4 text-center text-red-400">1 per terminal</td>
+                            <td class="py-3 px-4 text-center text-red-400">1 per window</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 font-medium text-gray-200">Discord native</td>
+                            <td class="py-3 px-4 text-center text-green-400">Yes</td>
+                            <td class="py-3 px-4 text-center text-red-400">No (web UI)</td>
+                            <td class="py-3 px-4 text-center text-red-400">No (terminal)</td>
+                            <td class="py-3 px-4 text-center text-red-400">No (IDE)</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 font-medium text-gray-200">Mobile access</td>
+                            <td class="py-3 px-4 text-center text-green-400">Full (Discord app)</td>
+                            <td class="py-3 px-4 text-center text-yellow-400">Web (responsive)</td>
+                            <td class="py-3 px-4 text-center text-red-400">No</td>
+                            <td class="py-3 px-4 text-center text-red-400">No</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 font-medium text-gray-200">Memory management</td>
+                            <td class="py-3 px-4 text-center text-green-400">Auto-compaction</td>
+                            <td class="py-3 px-4 text-center text-green-400">Conversation history</td>
+                            <td class="py-3 px-4 text-center text-yellow-400">Manual</td>
+                            <td class="py-3 px-4 text-center text-yellow-400">Basic</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 font-medium text-gray-200">Cost tracking</td>
+                            <td class="py-3 px-4 text-center text-green-400">Per-channel</td>
+                            <td class="py-3 px-4 text-center text-green-400">Per-session</td>
+                            <td class="py-3 px-4 text-center text-red-400">No</td>
+                            <td class="py-3 px-4 text-center text-red-400">No</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 font-medium text-gray-200">Skill injection</td>
+                            <td class="py-3 px-4 text-center text-green-400">Per-channel</td>
+                            <td class="py-3 px-4 text-center text-red-400">No</td>
+                            <td class="py-3 px-4 text-center text-yellow-400">CLAUDE.md</td>
+                            <td class="py-3 px-4 text-center text-yellow-400">.cursorrules</td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 font-medium text-gray-200">Setup time</td>
+                            <td class="py-3 px-4 text-center text-green-400">~2 min</td>
+                            <td class="py-3 px-4 text-center text-green-400">~5 min</td>
+                            <td class="py-3 px-4 text-center text-green-400">~1 min</td>
+                            <td class="py-3 px-4 text-center text-green-400">~2 min</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 sm:py-28 border-t border-white/5">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Ready to try? It takes 2 minutes.</h2>
+            <p class="text-gray-400 text-lg mb-10">Clone, configure, run. That's it.</p>
+            <div class="code-block rounded-2xl text-left mb-10">
+                <div class="flex items-center gap-2 px-5 py-3 border-b border-white/5">
+                    <span class="text-xs text-gray-500 font-mono">terminal</span>
+                </div>
+                <pre class="p-5 text-sm font-mono text-gray-300 overflow-x-auto leading-relaxed"><code><span class="text-gray-500"># Clone the repo</span>
+git clone https://github.com/XavierKain/disclawd.git
+cd disclawd
+
+<span class="text-gray-500"># Install dependencies</span>
+bun install
+
+<span class="text-gray-500"># Configure your bot token</span>
+cp .env.example .env
+nano .env
+
+<span class="text-gray-500"># Start DisClawd</span>
+bun start</code></pre>
+            </div>
+            <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-8 py-4 bg-blurple hover:bg-blurple/90 text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-blurple/25 text-lg">
+                View on GitHub
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 border-t border-white/5">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+            <div class="flex items-center gap-2">
+                <span class="font-semibold text-gray-400"><span class="text-blurple">Dis</span><span class="text-claude">Clawd</span></span>
+                <span>&middot;</span>
+                <span>MIT License</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="hover:text-gray-300 transition-colors">GitHub</a>
+                <a href="/blog/" class="hover:text-gray-300 transition-colors">Blog</a>
+                <span>Made by <a href="https://xavier-kain.fr" target="_blank" rel="noopener" class="text-gray-400 hover:text-gray-300 transition-colors">Xavier Kain</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

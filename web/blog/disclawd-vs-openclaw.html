@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DisClawd vs OpenClaw: Which Claude Code Tool Should You Use in 2026?</title>
+    <meta name="description" content="A detailed comparison of DisClawd and OpenClaw (formerly OpenCode/Clawdbot/Moltbot). Cost model, features, setup, and real use cases. Keep your Claude Code subscription — no API costs.">
+    <meta name="keywords" content="DisClawd vs OpenClaw, Claude Code alternative, OpenClaw comparison, Discord AI bot, Claude subscription, API costs">
+    <link rel="canonical" href="https://disclawd.xavier-kain.fr/blog/disclawd-vs-openclaw.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="DisClawd vs OpenClaw: Which Claude Code Wrapper Should You Use?">
+    <meta property="og:description" content="Detailed comparison of DisClawd and OpenClaw. Cost model, features, setup complexity, and real use cases for developers.">
+    <meta property="og:url" content="https://disclawd.xavier-kain.fr/blog/disclawd-vs-openclaw.html">
+    <meta property="og:image" content="https://disclawd.xavier-kain.fr/assets/og-disclawd.png">
+    <meta property="og:site_name" content="DisClawd">
+    <meta property="article:published_time" content="2026-04-07T00:00:00+00:00">
+    <meta property="article:author" content="Xavier Kain">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DisClawd vs OpenClaw: Which Claude Code Wrapper Should You Use?">
+    <meta name="twitter:description" content="Detailed comparison covering cost model, features, setup, and real use cases.">
+    <meta name="twitter:image" content="https://disclawd.xavier-kain.fr/assets/og-disclawd.png">
+
+    <!-- Schema.org Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "DisClawd vs OpenClaw: Which Claude Code Wrapper Should You Use in 2026?",
+        "description": "A detailed comparison of DisClawd and OpenClaw covering cost model, features, setup complexity, and real-world use cases for developers who want to get more from their Claude Code subscription.",
+        "author": {
+            "@type": "Person",
+            "name": "Xavier Kain",
+            "url": "https://xavier-kain.fr"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "DisClawd",
+            "url": "https://disclawd.xavier-kain.fr"
+        },
+        "datePublished": "2026-04-07",
+        "dateModified": "2026-04-07",
+        "url": "https://disclawd.xavier-kain.fr/blog/disclawd-vs-openclaw.html",
+        "image": "https://disclawd.xavier-kain.fr/assets/og-disclawd.png",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://disclawd.xavier-kain.fr/blog/disclawd-vs-openclaw.html"
+        },
+        "keywords": ["DisClawd", "OpenClaw", "Claude Code", "AI coding assistant", "Discord bot", "comparison"]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dc-dark': '#0f1117',
+                        'dc-darker': '#0a0c10',
+                        'dc-card': '#161921',
+                        'dc-border': '#1e2130',
+                        'dc-muted': '#8b8fa3',
+                        'blurple': '#5865F2',
+                        'blurple-light': '#7289DA',
+                        'claude': '#E87040',
+                        'claude-light': '#F09060',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0f1117;
+            color: #c8cad2;
+        }
+
+        code, pre, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #5865F2 0%, #E87040 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .prose h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #1e2130;
+        }
+
+        .prose h3 {
+            color: #e2e4ea;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .prose p {
+            margin-bottom: 1.25rem;
+            line-height: 1.8;
+        }
+
+        .prose ul, .prose ol {
+            margin-bottom: 1.25rem;
+            padding-left: 1.5rem;
+        }
+
+        .prose li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        .prose ul li { list-style-type: disc; }
+        .prose ol li { list-style-type: decimal; }
+
+        .prose a {
+            color: #5865F2;
+            text-decoration: underline;
+            text-decoration-color: rgba(88, 101, 242, 0.3);
+            transition: color 0.2s;
+        }
+        .prose a:hover {
+            color: #7289DA;
+        }
+
+        .prose code {
+            background: #161921;
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            font-size: 0.875em;
+            color: #E87040;
+        }
+
+        .prose blockquote {
+            border-left: 3px solid #5865F2;
+            padding-left: 1.25rem;
+            margin: 1.5rem 0;
+            color: #8b8fa3;
+            font-style: italic;
+        }
+
+        .prose strong {
+            color: #e2e4ea;
+        }
+
+        .comparison-table th {
+            background: #161921;
+        }
+        .comparison-table tr:nth-child(even) td {
+            background: rgba(22, 25, 33, 0.5);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0c10; }
+        ::-webkit-scrollbar-thumb { background: #1e2130; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-dc-dark/80 backdrop-blur-xl border-b border-dc-border">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blurple to-claude flex items-center justify-center text-white font-bold text-sm">D</div>
+                <span class="font-bold text-lg text-white">DisClawd</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm text-dc-muted">
+                <a href="/#features" class="hover:text-white transition-colors">Features</a>
+                <a href="/#how-it-works" class="hover:text-white transition-colors">How it works</a>
+                <a href="/#comparison" class="hover:text-white transition-colors">Compare</a>
+                <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
+            </div>
+            <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-dc-border hover:bg-white/10 transition-colors text-sm font-medium">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+        </div>
+    </nav>
+
+    <!-- Article -->
+    <article class="pt-28 pb-20 md:pt-36 md:pb-28">
+        <div class="max-w-3xl mx-auto px-6">
+
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center gap-2 text-sm text-dc-muted mb-8">
+                <a href="/" class="hover:text-white transition-colors">DisClawd</a>
+                <span>/</span>
+                <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
+                <span>/</span>
+                <span class="text-white">DisClawd vs OpenClaw</span>
+            </nav>
+
+            <!-- Header -->
+            <header class="mb-12">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
+                    DisClawd vs OpenClaw: Which Claude Code Tool Should You Use in 2026?
+                </h1>
+                <div class="flex items-center gap-4 text-sm text-dc-muted">
+                    <time datetime="2026-04-07">April 7, 2026</time>
+                    <span>&middot;</span>
+                    <span>8 min read</span>
+                    <span>&middot;</span>
+                    <span>By <a href="https://xavier-kain.fr" class="text-blurple hover:underline">Xavier Kain</a></span>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="prose">
+
+                <p>If you use Claude Code professionally, you have probably noticed the ecosystem of wrappers and alternative interfaces growing fast. Two projects stand out for different reasons: <strong>OpenClaw</strong> (the 75+ provider Swiss Army knife) and <strong>DisClawd</strong> (the Discord-native approach that runs on your existing subscription). This article breaks down exactly what each tool does, what it costs, and which one fits your workflow.</p>
+
+                <h2>The quick version</h2>
+
+                <p>OpenClaw gives you a terminal-based AI coding environment that supports dozens of LLM providers. DisClawd turns Discord channels into independent Claude Code agents that use your Claude Code CLI subscription directly. The fundamental difference is the cost model: OpenClaw requires API keys (per-token billing), while DisClawd piggybacks on the subscription you already pay for.</p>
+
+                <blockquote>If you already pay for a Claude Code subscription and want multi-session access from any device, DisClawd eliminates the API cost question entirely.</blockquote>
+
+                <h2>What is OpenClaw?</h2>
+
+                <p>OpenClaw -- originally released as OpenCode, then renamed to Clawdbot, then Moltbot, and now OpenClaw -- is an open-source project from <a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener">anomalyco/opencode on GitHub</a>. Its mascot is a red lobster, and the project has built a loyal following in the terminal-first AI coding community.</p>
+
+                <p>The core value proposition is provider flexibility. OpenClaw supports over 75 LLM providers including OpenAI, Anthropic, Google, Mistral, local models through Ollama, and many others. You bring your own API keys, and OpenClaw handles the interface, context management, and tool use.</p>
+
+                <h3>OpenClaw strengths</h3>
+                <ul>
+                    <li><strong>Provider diversity:</strong> Switch between Claude, GPT-4, Gemini, or local models depending on the task</li>
+                    <li><strong>Terminal-native:</strong> Clean TUI that feels like a natural extension of your development environment</li>
+                    <li><strong>Plugin ecosystem:</strong> Extensible with plugins for memory, cost tracking, and custom tools</li>
+                    <li><strong>Active community:</strong> Regular updates and community-contributed plugins</li>
+                    <li><strong>Self-hosted:</strong> Run it anywhere you have a terminal</li>
+                </ul>
+
+                <h3>OpenClaw limitations</h3>
+                <ul>
+                    <li><strong>API key requirement:</strong> Every request costs tokens. Anthropic has started charging a premium for third-party API usage, making Claude-through-OpenClaw more expensive than Claude Code directly.</li>
+                    <li><strong>No mobile access:</strong> Terminal-based means you need SSH access from mobile, which is clunky at best</li>
+                    <li><strong>Single-session focus:</strong> While you can run multiple instances, there is no built-in orchestration between them</li>
+                    <li><strong>Setup complexity:</strong> Configuring multiple providers, managing API keys, and setting up plugins takes time</li>
+                </ul>
+
+                <h2>What is DisClawd?</h2>
+
+                <p>DisClawd is a Discord bot that spawns <code>claude -p</code> processes for each channel. Every channel becomes an independent Claude Code agent with its own working directory, system prompt, model selection, and persistent session. Built with Bun and Discord.js, it runs as a single process on your server.</p>
+
+                <p>The critical design decision: DisClawd does not use the Anthropic API. It uses the Claude Code CLI, which authenticates through your existing Claude Code subscription. If you already pay for Claude Code (which most developers reading this probably do), DisClawd adds zero marginal cost.</p>
+
+                <h3>DisClawd strengths</h3>
+                <ul>
+                    <li><strong>Zero API costs:</strong> Uses your Claude Code subscription. No per-token billing, no API key management, no surprise invoices.</li>
+                    <li><strong>True multi-session:</strong> 10 concurrent sessions across channels, each with independent context. Not just multiple tabs -- actual separate agents.</li>
+                    <li><strong>Mobile-first by accident:</strong> Discord works on every device. Your coding agents are now in your pocket.</li>
+                    <li><strong>Adaptive memory compaction:</strong> Long conversations are automatically summarized and compressed. Context persists indefinitely without token bloat.</li>
+                    <li><strong>Cross-channel awareness:</strong> The #general channel sees activity across all agents and can route commands between them.</li>
+                    <li><strong>Built-in cost tracking:</strong> Every session is logged with tokens, duration, and model. Daily/weekly/monthly dashboards built in.</li>
+                    <li><strong>Real-time streaming:</strong> Watch Claude work in real time with debounced Discord message edits and code-block-aware splitting.</li>
+                    <li><strong>Interactive dashboard:</strong> Configure channels with buttons, dropdowns, and modals -- no config files to edit.</li>
+                </ul>
+
+                <h3>DisClawd limitations</h3>
+                <ul>
+                    <li><strong>Claude only:</strong> It runs Claude Code CLI, so you get Claude models only. No GPT-4, no Gemini, no local models.</li>
+                    <li><strong>Requires Discord:</strong> If you do not use Discord, this tool does not make sense for you.</li>
+                    <li><strong>Single user:</strong> Currently designed for one user (via <code>ALLOWED_USER_ID</code>). Multi-user support is on the roadmap.</li>
+                    <li><strong>Depends on Claude Code CLI:</strong> If Anthropic changes how the CLI works, DisClawd needs to adapt.</li>
+                </ul>
+
+                <h2>The cost question</h2>
+
+                <p>This is where the comparison gets decisive for most developers.</p>
+
+                <p>Anthropic has been tightening the economics around third-party API usage. Using Claude through the API -- which is what OpenClaw and similar tools do -- now carries a premium compared to using Claude Code directly. The exact pricing varies, but the trend is clear: direct CLI usage through your subscription is the most cost-effective path.</p>
+
+                <p>Here is a simplified breakdown:</p>
+            </div>
+
+            <!-- Cost comparison table -->
+            <div class="overflow-x-auto my-8">
+                <table class="comparison-table w-full text-sm border-collapse rounded-xl overflow-hidden border border-dc-border">
+                    <thead>
+                        <tr>
+                            <th class="text-left p-4 text-dc-muted font-medium border-b border-dc-border"></th>
+                            <th class="text-center p-4 font-semibold border-b border-dc-border"><span class="gradient-text">DisClawd</span></th>
+                            <th class="text-center p-4 text-dc-muted font-medium border-b border-dc-border">OpenClaw</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dc-muted">
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Base cost</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">$0 (uses subscription)</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">$0 + API costs</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Per-request cost</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Included in subscription</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">Per-token billing</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Heavy usage month</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Still $0 extra</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">Can reach $100+</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-white">Billing surprises</td>
+                            <td class="p-4 text-center text-green-400">Impossible</td>
+                            <td class="p-4 text-center text-red-400">Common</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="prose">
+                <p>For developers who are already paying for a Claude Code subscription -- and that includes most professional users of Claude -- DisClawd effectively makes multi-session Claude Code free. There is no API key to manage, no billing to monitor, and no per-token anxiety.</p>
+
+                <h2>Feature comparison</h2>
+            </div>
+
+            <!-- Feature comparison table -->
+            <div class="overflow-x-auto my-8">
+                <table class="comparison-table w-full text-sm border-collapse rounded-xl overflow-hidden border border-dc-border">
+                    <thead>
+                        <tr>
+                            <th class="text-left p-4 text-dc-muted font-medium border-b border-dc-border">Feature</th>
+                            <th class="text-center p-4 font-semibold border-b border-dc-border"><span class="gradient-text">DisClawd</span></th>
+                            <th class="text-center p-4 text-dc-muted font-medium border-b border-dc-border">OpenClaw</th>
+                            <th class="text-center p-4 text-dc-muted font-medium border-b border-dc-border">Raw Claude Code</th>
+                            <th class="text-center p-4 text-dc-muted font-medium border-b border-dc-border">Cursor</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dc-muted">
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Uses subscription</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Yes</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">No</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Yes</td>
+                            <td class="p-4 border-b border-dc-border text-center text-yellow-400">Own sub</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Concurrent sessions</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">10</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Multiple</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">1</td>
+                            <td class="p-4 border-b border-dc-border text-center text-yellow-400">Tab-based</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Mobile access</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Discord app</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">No</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">SSH only</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">No</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Memory compaction</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Built-in</td>
+                            <td class="p-4 border-b border-dc-border text-center text-yellow-400">Plugin</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">Manual</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">No</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Cost tracking</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Built-in</td>
+                            <td class="p-4 border-b border-dc-border text-center text-yellow-400">Plugin</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">Manual</td>
+                            <td class="p-4 border-b border-dc-border text-center text-yellow-400">Usage page</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">Cross-project routing</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">Yes</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">No</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">No</td>
+                            <td class="p-4 border-b border-dc-border text-center text-red-400">No</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-dc-border text-white">LLM providers</td>
+                            <td class="p-4 border-b border-dc-border text-center">Claude only</td>
+                            <td class="p-4 border-b border-dc-border text-center text-green-400">75+</td>
+                            <td class="p-4 border-b border-dc-border text-center">Claude only</td>
+                            <td class="p-4 border-b border-dc-border text-center">Multi</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-white">Live streaming</td>
+                            <td class="p-4 text-center text-green-400">Yes</td>
+                            <td class="p-4 text-center text-green-400">Yes</td>
+                            <td class="p-4 text-center text-green-400">Yes</td>
+                            <td class="p-4 text-center text-green-400">Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="prose">
+                <h2>Setup comparison</h2>
+
+                <h3>Setting up DisClawd</h3>
+
+                <p>DisClawd requires three things: Bun (the JavaScript runtime), the Claude Code CLI installed and authenticated, and a Discord bot token. The setup process takes about five minutes:</p>
+
+                <ol>
+                    <li>Clone the repository from <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener">GitHub</a></li>
+                    <li>Run <code>bun install</code></li>
+                    <li>Copy <code>.env.example</code> to <code>.env</code> and add your Discord bot token, user ID, and server ID</li>
+                    <li>Configure your channels in <code>src/config.ts</code> or use the <code>!dashboard</code> command after starting</li>
+                    <li>Run <code>bun run start</code></li>
+                </ol>
+
+                <p>That is it. No API keys to manage, no provider configuration, no plugin installation. The Claude Code CLI handles authentication through your existing subscription.</p>
+
+                <h3>Setting up OpenClaw</h3>
+
+                <p>OpenClaw requires more initial configuration but offers more flexibility in return:</p>
+
+                <ol>
+                    <li>Install from the repository</li>
+                    <li>Configure one or more API providers with their respective keys</li>
+                    <li>Set up your preferred model defaults</li>
+                    <li>Optionally install plugins for memory, cost tracking, etc.</li>
+                    <li>Configure per-project settings</li>
+                </ol>
+
+                <p>The additional setup time is the trade-off for supporting 75+ providers. If you need that flexibility, the time investment is worth it. If you only use Claude, it is overhead you do not need.</p>
+
+                <h2>Use cases: when to choose which</h2>
+
+                <h3>Choose DisClawd when:</h3>
+
+                <ul>
+                    <li><strong>You already have a Claude Code subscription</strong> and want to maximize its value</li>
+                    <li><strong>You manage multiple projects</strong> and want parallel agents for each one</li>
+                    <li><strong>You want mobile access</strong> to your coding agents without SSH gymnastics</li>
+                    <li><strong>You work on a VPS or remote server</strong> where Discord is the natural communication layer</li>
+                    <li><strong>You want cross-project awareness</strong> -- a central hub that knows what all your agents are doing</li>
+                    <li><strong>You want zero incremental cost</strong> beyond your existing subscription</li>
+                    <li><strong>You are a solo developer or indie hacker</strong> who wants a personal AI coding team</li>
+                </ul>
+
+                <h3>Choose OpenClaw when:</h3>
+
+                <ul>
+                    <li><strong>You need multiple LLM providers</strong> and want to switch between them based on task type</li>
+                    <li><strong>You prefer a terminal interface</strong> over Discord</li>
+                    <li><strong>You do not use Discord</strong> as part of your workflow</li>
+                    <li><strong>You need local model support</strong> via Ollama or similar</li>
+                    <li><strong>Your team has standardized on OpenClaw</strong> and benefits from its plugin ecosystem</li>
+                    <li><strong>You want provider redundancy</strong> -- if one provider goes down, switch to another</li>
+                </ul>
+
+                <h2>The subscription advantage</h2>
+
+                <p>The elephant in the room is Anthropic's pricing strategy. As of 2026, using Claude through the API costs meaningfully more than using it through the Claude Code CLI with a subscription. This is not a bug -- it is Anthropic's deliberate pricing model that rewards direct subscribers.</p>
+
+                <p>DisClawd is designed around this reality. By spawning <code>claude -p</code> processes directly, it gets the full power of Claude Code -- including tool use, file operations, and code execution -- at subscription prices. There is no API middleman adding markup.</p>
+
+                <p>For a developer who runs 50-100 Claude sessions per week across multiple projects, the cost difference between API-based and subscription-based access can easily reach hundreds of dollars per month. DisClawd makes that difference zero.</p>
+
+                <h2>Architecture differences</h2>
+
+                <p>OpenClaw runs as a standalone application that communicates with LLM providers through their respective APIs. It manages its own context window, tool definitions, and conversation history. This gives it fine-grained control over every aspect of the interaction.</p>
+
+                <p>DisClawd takes a fundamentally different approach. It is a thin orchestration layer that spawns and manages Claude Code CLI processes. Each channel gets its own process with <code>--resume</code> support for session persistence. The heavy lifting -- context management, tool use, code execution -- is handled by Claude Code itself.</p>
+
+                <p>This means DisClawd automatically benefits from every Claude Code CLI update without any code changes. New tools, improved context handling, better streaming -- all of it flows through automatically. The trade-off is less control over the interaction details, but for most use cases, Claude Code's built-in capabilities are more than sufficient.</p>
+
+                <h2>Final verdict</h2>
+
+                <p>These tools serve different audiences with different priorities. If you need provider flexibility and a terminal-first experience, OpenClaw is excellent. If you want to turn your Claude Code subscription into a multi-agent system accessible from any device, DisClawd is the more practical choice.</p>
+
+                <p>For most developers who already pay for Claude Code, DisClawd is the path of least resistance: no API keys, no extra costs, no new interfaces to learn. Just Discord channels that happen to be AI coding agents.</p>
+
+                <p>Both projects are open source and free. Try them both and see which fits your workflow.</p>
+
+                <ul>
+                    <li><a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener">DisClawd on GitHub</a></li>
+                    <li><a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener">OpenClaw on GitHub</a></li>
+                </ul>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-16 p-8 rounded-2xl bg-dc-card border border-dc-border text-center">
+                <h3 class="text-xl font-bold text-white mb-3">Ready to try DisClawd?</h3>
+                <p class="text-dc-muted mb-6">Open source, free, five minutes to set up.</p>
+                <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blurple hover:bg-blurple/90 text-white font-semibold transition-all hover:shadow-lg hover:shadow-blurple/25">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    Get started on GitHub
+                </a>
+            </div>
+
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-dc-border">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-blurple to-claude flex items-center justify-center text-white font-bold text-xs">D</div>
+                    <span class="text-dc-muted text-sm">DisClawd &middot; MIT License &middot; Built by <a href="https://xavier-kain.fr" target="_blank" rel="noopener" class="text-white hover:text-blurple transition-colors">Xavier Kain</a></span>
+                </div>
+                <div class="flex items-center gap-6 text-sm text-dc-muted">
+                    <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
+                    <a href="https://github.com/XavierKain/disclawd" target="_blank" rel="noopener" class="hover:text-white transition-colors">GitHub</a>
+                    <a href="https://github.com/XavierKain/disclawd/issues" target="_blank" rel="noopener" class="hover:text-white transition-colors">Issues</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
