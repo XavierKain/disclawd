@@ -67,6 +67,10 @@ db.exec(`
   );
 `);
 
+// Migrations — add columns that may not exist in older DBs
+try { db.exec("ALTER TABLE channel_settings ADD COLUMN skills TEXT"); } catch {}
+try { db.exec("ALTER TABLE usage_log ADD COLUMN cache_read_tokens INTEGER DEFAULT 0"); } catch {}
+
 // Prepared statements
 const stmts = {
   getSession: db.prepare("SELECT * FROM sessions WHERE channel_id = ?"),
