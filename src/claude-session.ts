@@ -110,7 +110,7 @@ export async function sendMessage(
   systemPrompt: string,
   callbacks: SessionCallbacks,
   memories: string[] = [],
-  options: { model?: string; maxTurns?: number } = {},
+  options: { model?: string; maxTurns?: number; imagePaths?: string[] } = {},
 ): Promise<void> {
   // If session is already active, stop it first (user sent new message)
   if (isSessionActive(channelId)) {
@@ -148,8 +148,15 @@ export async function sendMessage(
     args.push("--resume", sessionId);
   }
 
-  // Add the message
-  args.push(message);
+  // Add the message (append image paths so Claude can read them with the Read tool)
+  let finalMessage = message || "";
+  if (options.imagePaths && options.imagePaths.length > 0) {
+    const imgNote = options.imagePaths.map(p => `[Image: ${p}]`).join("\n");
+    finalMessage = finalMessage
+      ? `${finalMessage}\n\n${imgNote}`
+      : `Regarde cette image et réponds en conséquence.\n\n${imgNote}`;
+  }
+  args.push(finalMessage);
 
   const abortController = new AbortController();
   const env = buildCleanEnv();

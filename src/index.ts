@@ -74,8 +74,27 @@ client.on("messageCreate", async (message: Message) => {
   const channelId = channel.id;
   const content = message.content.trim();
 
-  // Ignore empty messages
-  if (!content) return;
+  // Download image attachments to temp files
+  const imagePaths: string[] = [];
+  if (message.attachments.size > 0) {
+    for (const [, attachment] of message.attachments) {
+      const contentType = attachment.contentType || "";
+      if (!contentType.startsWith("image/")) continue;
+      try {
+        const resp = await fetch(attachment.url);
+        const buffer = await resp.arrayBuffer();
+        const ext = contentType.split("/")[1]?.split(";")[0] || "jpg";
+        const tmpPath = `/tmp/discord_img_${attachment.id}.${ext}`;
+        await Bun.write(tmpPath, buffer);
+        imagePaths.push(tmpPath);
+      } catch (e) {
+        console.error("Failed to download attachment:", e);
+      }
+    }
+  }
+
+  // Ignore empty messages (no text AND no images)
+  if (!content && imagePaths.length === 0) return;
 
   // Handle special commands
   if (content.startsWith("!")) {
@@ -96,13 +115,13 @@ client.on("messageCreate", async (message: Message) => {
       await channel.send("⚠️ File d'attente pleine (5 messages). Attends que la session termine.");
       return;
     }
-    queue.push({ message: content, discordMsg: message });
+    queue.push({ message: content, discordMsg: message, imagePaths });
     messageQueues.set(channelId, queue);
     await message.react("⏳");
     return;
   }
 
-  await processMessage(channelId, channelName, content, channel, message);
+  await processMessage(channelId, channelName, content, channel, message, imagePaths);
 });
 
 // Handle reaction-based commands
@@ -208,6 +227,7 @@ async function processMessage(
   content: string,
   channel: TextChannel,
   discordMessage: Message | null,
+  imagePaths: string[] = [],
 ) {
   const config = getChannelConfig(channelId, channelName);
 
@@ -332,6 +352,7 @@ async function processMessage(
     await sendMessage(channelId, channelName, content, config.projectDir, systemPrompt, callbacks, memories, {
       model: config.model,
       maxTurns: config.maxTurns,
+      imagePaths,
     });
   } catch (err) {
     await channel.send(`**Erreur:** ${err}`);
@@ -349,7 +370,7 @@ async function processQueue(channelId: string, channelName: string, channel: Tex
   // Remove ⏳ reaction
   try { await next.discordMsg.reactions.cache.get("⏳")?.users.remove(client.user!.id); } catch {}
 
-  await processMessage(channelId, channelName, next.message, channel, next.discordMsg);
+  await processMessage(channelId, channelName, next.message, channel, next.discordMsg, next.imagePaths || []);
 }
 
 async function routeToChannel(targetChannelName: string, command: string, sourceChannel: TextChannel) {
